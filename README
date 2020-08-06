@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+
+---------------------------------------------
+Last but not least!
+After installing the application with npm, there are some final steps one must follow
+in order to ensure that it runs properly. The SimpleUploadAdapter has to be included in
+the ckeditor (ClassicEditor), and to include it you should do this:
+
+git clone -b stable https://github.com/ckeditor/ckeditor5
+cd ckeditor5/packages/ckeditor5-build-classic
+npm install
+npm install --save @ckeditor/ckeditor5-upload
+
+then  add the following lines in /src/ckeditor.js : 
+
+import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
+ (right below the importations)
+
+SimpleUploadAdapter
+(in ClassicEditor.builtinPlugins, right below TextTransformation. Don't forget the coma!)
+
+Then:
+
+yarn run build
+
+and then copy and paste the package.json and the build folder
+to frontend/blogservice/node_modules/@ckeditor/ckeditor5-build-classic . Replace every file needed. 
+
+Further instructions on ckeditor and the simpleUploadAdapter may be found in the following links: 
+https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/installing-plugins.html
+https://ckeditor.com/docs/ckeditor5/latest/features/image-upload/simple-upload-adapter.html#configuration
+
+
+It is strongly recommended that you run
+npx patch-package ckeditor5-build-classic
+afterwards, otherwise the original form of
+ckeditor5-build-classic  will be coming back with each and every npm update.
+
+-------------------------------------------

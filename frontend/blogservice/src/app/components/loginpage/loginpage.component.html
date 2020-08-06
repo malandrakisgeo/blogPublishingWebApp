@@ -1,0 +1,43 @@
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyC-szzWLAiH1LWjB-pXK4U0Mgk-wweVeac",
+    authDomain: "blogpublishingwebservice.firebaseapp.com",
+    databaseURL: "https://blogpublishingwebservice.firebaseio.com",
+    projectId: "blogpublishingwebservice",
+    storageBucket: "blogpublishingwebservice.appspot.com",
+    messagingSenderId: "515526696114",
+    appId: "1:515526696114:web:03258e165ee66cdd097dab"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var nn;
+  var provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase.auth().signInWithRedirect(provider);
+
+</script>
+
+
+<div id="gSignInWrapper" (click)="loginWithGoogle()">
+  <div id="loginButton" class="loginButton">
+    <span class="googleIcon"></span>
+    <span class="buttonText">Sign in with google</span>
+  </div>
+</div>
+<p></p>
+<div id="fbSignInWrapper">
+  <div class="loginButton"  (click)="loginWithGoogle()">
+    <span class="fbIcon"></span>
+    <span class="buttonText">Sign in with facebook</span>
+  </div>
+</div>
+<p></p>
+
+
