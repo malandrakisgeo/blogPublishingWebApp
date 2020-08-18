@@ -34,6 +34,7 @@ Promise.all(promises).then(function() {
 
 
 
+https://www.learnrxjs.io/learn-rxjs/operators/transformation/map
 
 
 

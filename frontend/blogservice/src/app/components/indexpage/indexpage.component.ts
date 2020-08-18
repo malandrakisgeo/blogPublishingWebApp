@@ -1,32 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, ModuleWithProviders, OnInit, Optional} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from "../../../environments/environment.prod";
+import {AuthService} from "../../auth/auth.service"
 
 @Component({
   selector: 'app-indexpage',
   templateUrl: './indexpage.component.html',
   styleUrls: ['./indexpage.component.css']
 })
+
+
 export class IndexpageComponent implements OnInit {
   text: any;
+  public userPanelLink: string;
+  public userLoggedIn: boolean;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private auth: AuthService,
+  ) {
+    /*this.auth.userLoggedInSuccessfully.subscribe(value => {
+      this.userLoggedIn = value;
+    });*/
+    auth.userLoggedInSuccessfully.subscribe(value => this.userLoggedIn=value);
+  }
+
 
   ngOnInit() {
     //let obj = JSON.parse(this.getIndex());
     //this.text = obj.foo;
     this.text = this.altGet();
+    this.userPanelLink = localStorage.getItem("userPanelLink");
   }
 
-  private getIndex(){
+
+  private getIndex() {
     //const headers = new HttpHeaders().set('Content-Type', 'json; charset=utf-8');
     //return this.http.get<String>(environment.backendUrl,{ headers, responseType: 'json'});
-     this.http.get<object>(environment.backendUrl).subscribe((response: Response) => {
+    this.http.get<object>(environment.backendUrl).subscribe((response: Response) => {
       return response.toString();
     });
   }
 
-  private altGet(){
+  private altGet() {
     //return this.http.get<any>(environment.backendUrl).map((res:any) => res);
 
   }

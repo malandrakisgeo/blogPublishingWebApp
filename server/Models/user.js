@@ -5,7 +5,8 @@ const userSchema = new mongoose.Schema({
     googleID: String,
     email: {type: String, unique: true},
     lastGoogleToken: String,
-    googleTokenExpiration: String
+    googleTokenExpiration: String,
+    lastValidToken: String
 });
 
 const user = mongoose.model('User', userSchema);

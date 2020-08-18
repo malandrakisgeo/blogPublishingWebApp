@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Optional} from '@angular/core';
 import {LoginserviceService} from "../../services/loginservice.service";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {environment} from "../../../environments/environment.prod";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-loginpage',
@@ -13,7 +14,9 @@ export class LoginpageComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              private loginserviceService: LoginserviceService) {
+
+              private loginserviceService: LoginserviceService,
+              @Optional() auth?: AuthService,) {
 
     this.loginurl = "/auth/google/";
   }
@@ -23,6 +26,7 @@ export class LoginpageComponent implements OnInit {
 
   loginWithGoogle() {
     window.location.href = environment.backendUrl+this.loginurl;
+    //this.auth.login();
   }
 
 }
