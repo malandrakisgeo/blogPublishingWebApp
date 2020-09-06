@@ -14,8 +14,6 @@ export class LoginpageComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-
-              private loginserviceService: LoginserviceService,
               @Optional() auth?: AuthService,) {
 
     this.loginurl = "/auth/google/";
@@ -26,7 +24,6 @@ export class LoginpageComponent implements OnInit {
 
   loginWithGoogle() {
     window.location.href = environment.backendUrl+this.loginurl;
-    //this.auth.login();
   }
 
 }

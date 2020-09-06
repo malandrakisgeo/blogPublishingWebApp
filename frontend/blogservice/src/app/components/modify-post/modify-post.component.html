@@ -1,5 +1,7 @@
-<div id="postmod">
+<div class="centernav" id="postmod">
+  <!--ckeditor id="editorr"></ckeditor-->
   <ckeditor id="editorr"></ckeditor>
+
   <button id="saveData">Update post</button>
   <button [hidden]="published" id="publish">Publish post</button>
 </div>
@@ -7,5 +9,5 @@
 </p>
 <p></p>
 <div class="prevVer" id="previousversions" *ngFor="let version of versions">
-    <a href="{{ this.defLocation+'/'+this.uuid+'/'+version}}">Version {{version}}</a>
+    <a (click)="getVersion($event)" id="{{version}}" href = "{{this.uuid+'/'+version}}" >Version {{version}}</a>
 </div>

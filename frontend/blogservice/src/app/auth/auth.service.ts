@@ -13,17 +13,18 @@ export interface userCreds {
 
 
 @Injectable({providedIn: 'root'})
-export class AuthService {
+export class AuthService  {
 
   private verificationUrl = "/genuineCreds/";
   private token;
   private jwthelper = new JwtHelperService(); //TS2339: Property does not exist if not instantiated!
   public user: userCreds;
-  public userLoggedInSuccessfully: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public userLoggedInSuccessfully: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!this.tokenExpired(this.getToken()));
+  public userLoggedInPanel:  BehaviorSubject<string> = new BehaviorSubject<string>(this.getPanelUrl());
 
   //@Output() userLoggedInSuccessfully: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient,) {
+  constructor(private http: HttpClient) {
   }
 
 
@@ -31,24 +32,26 @@ export class AuthService {
     We deliberately not check  the userLoggedInSuccessfully in LocalStorage,
      as it does not provide any information for the token.
   */
+  public getPanelUrl(): string{
+    if(this.isLoggedIn()){
+      return localStorage.getItem('panelUrl');
+    } else{
+      return ''
+    };
+  }
   public isLoggedIn(): boolean {
-    return this.tokenExpired(this.getToken());
+    return !this.tokenExpired(this.getToken());
   }
 
   private getToken(): string {
     this.token = localStorage.getItem('token'); //anti gia Sessionstorage
-
     return this.token;
   }
 
   private tokenExpired(token: string): boolean {
-    return ((token != null) && (this.jwthelper.isTokenExpired(token)));
-
+    return (token != null && this.jwthelper.isTokenExpired(token));
   }
 
-  public ensureGenuineGeneral(user: userCreds): Observable<Boolean> {
-    return this.ensureGenuine(user.token, user.userId, user.nick);
-  }
 
   /*
       Ensure that the user has not manipulated the request values,
@@ -73,32 +76,31 @@ export class AuthService {
         ));
   }
 
-  public verifyLogIn(token: string, userId: string, nick: string): Boolean {
+
+  public verifyLogIn(token: string, userId: string, nick: string): Promise<boolean> {
     this.user = {
       token: token, nick: nick, userId: userId
     }
-    this.ensureGenuine(token, userId, nick).subscribe(resp => {
-        if (resp == true) {
-          console.log(resp);
-          localStorage.setItem('token', token);
-          localStorage.setItem('userId', userId);
-          localStorage.setItem('nickname', nick);
-          this.userLoggedInSuccessfully.next(true);
-          console.log("RUNNNSDNSDNSDNSND");
-          //this.userLoggedInSuccessfully.emit(true);
-          return true;
-        } else {
-          console.log("RUNNNSDNSDNSDNSND");
-          this.userLoggedInSuccessfully.next(false);
-          console.log(resp);
-          this.user = null;
-          return false;
+    let bo: boolean;
+
+    return new Promise<boolean>((resolve, reject) => {
+      this.ensureGenuine(token, userId, nick).subscribe(resp => {
+          if (resp == true) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('nickname', nick);
+            this.userLoggedInSuccessfully.next(true);
+            resolve(true);
+          } else {
+            this.userLoggedInSuccessfully.next(false);
+            this.user = null;
+            localStorage.setItem( "userPanelLink", null);
+            resolve(false)
+          }
         }
-      }
-    );
+      )
+    })
 
-    return false;
   }
-
 
 }

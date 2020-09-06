@@ -70,3 +70,12 @@ db.updateUser( "GeoAdmin",
 
 
  */
+
+
+/*
+https://grokonez.com/elasticsearch/angular-6-elasticsearch-example-simple-full-text-search
+https://grokonez.com/elasticsearch/angular-6-elasticsearch-example-get-all-documents-in-index
+https://grokonez.com/elasticsearch/angular-6-elasticsearch-example-add-document-to-index
+https://grokonez.com/frontend/angular/angular-6-elasticsearch-example-quick-start-how-to-add-elasticsearch-js
+https://www.elastic.co/guide/en/elasticsearch/reference/current/targz.html
+ */

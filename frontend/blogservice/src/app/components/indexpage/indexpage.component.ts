@@ -12,7 +12,7 @@ import {AuthService} from "../../auth/auth.service"
 
 export class IndexpageComponent implements OnInit {
   text: any;
-  public userPanelLink: string;
+  public userPanelLink: String;
   public userLoggedIn: boolean;
 
   constructor(private http: HttpClient,
@@ -21,7 +21,12 @@ export class IndexpageComponent implements OnInit {
     /*this.auth.userLoggedInSuccessfully.subscribe(value => {
       this.userLoggedIn = value;
     });*/
-    auth.userLoggedInSuccessfully.subscribe(value => this.userLoggedIn=value);
+    auth.userLoggedInSuccessfully.subscribe(value => {
+      this.userLoggedIn = value
+    });
+    auth.userLoggedInPanel.subscribe(value => {
+      this.userPanelLink = value
+    });
   }
 
 
@@ -29,7 +34,6 @@ export class IndexpageComponent implements OnInit {
     //let obj = JSON.parse(this.getIndex());
     //this.text = obj.foo;
     this.text = this.altGet();
-    this.userPanelLink = localStorage.getItem("userPanelLink");
   }
 
 

@@ -3,13 +3,28 @@ const multer = require('multer');
 const postModel = require('./../Models/post')
 const db = require('./../Config/db.config')
 
+function getPublicPost(req, res) {
+    return postModel.findOne({postuuid: req.params.postuuid})
+        .sort({'_id': -1}) //get most recent version
+        .then(post => {
+                console.log(post.published)
+                if (post.published === true) {
+                    res.status(200).json(post);
+                } else {
+                    res.status(400).json();
+                }
+            }
+        );
+}
 
 function getPost(req, res) {
-    return postModel.findOne({postuuid: req.params.postuuid, userId: req.params.userid})
-        .sort({'_id': -1}) //get most recent version
-        .then(result => {
-            res.status(200).json(result);
-        });
+    if (req.params.userid != null && req.params.postuuid != null) {
+        return postModel.findOne({postuuid: req.params.postuuid, userId: req.params.userid})
+            .sort({'_id': -1}) //get most recent version
+            .then(result => {
+                res.status(200).json(result);
+            });
+    }
 }
 
 function getParticularVersion(req, res) {
@@ -27,6 +42,20 @@ function getVersions(req, res) {
         });
 }
 
+function deletePosts(req, res) {
+    console.log(req);
+    console.log(req.body);
+    console.log(req.body.posts);
+    let result;
+    req.body.posts.forEach(post => {  ///DEN VAZOUME FUNCTION
+            console.log(post);
+            postModel.deleteMany({postuuid: post.postuuid}).then(console.log('ok'));
+        }
+    )
+    res.status(200).json(result);
+
+}
+
 
 function postsOfUser(req, res) {
     let writings = [];
@@ -37,7 +66,7 @@ function postsOfUser(req, res) {
             posts.forEach(writing => {
                 writings.push(writing);
             })).then(() => {
-            return res.status(200).json([...new Set(writings)]);
+            return res.status(200).json(writings);
         }
     );
 }
@@ -95,4 +124,6 @@ module.exports = {
     postsOfUser: postsOfUser,
     getVersions: getVersions,
     getParticularVersion: getParticularVersion,
+    getPublicPost: getPublicPost,
+    deletePosts: deletePosts,
 };

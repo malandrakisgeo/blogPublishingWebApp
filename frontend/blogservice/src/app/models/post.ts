@@ -27,7 +27,8 @@ export class Post {
     post.postuuid = json.postuuid;
     post.data = json.data;
     post.version = json.version;
-    post.title = json.title;
+    post.title = json.title ? json.title : json.postuuid;
+    post.published = json.published;
     return post;
   }
 

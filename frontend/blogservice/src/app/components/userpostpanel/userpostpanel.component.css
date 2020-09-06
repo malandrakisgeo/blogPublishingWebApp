@@ -2,16 +2,26 @@
   width: 60%; /* 0 width - change this with JavaScript */
   padding-left: 15%;
   padding-top: 12%;
-  position: fixed; /* Stay in place */
+  position: relative; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
-  left: 0;
+  /*left: 0;*/
   overflow-x: hidden; /* Disable horizontal scroll */
 }
 
-.sidenav {
+.title {
+  width: 100%;
+
+}
+
+.ck-editor {
+  max-height: 80%;
+}
+
+
+.sidenavvv {
   padding-top: 12%;
-  fload: left;
+  float: bottom;
   height: 100%; /* 100% Full-height */
   width: 15%; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
@@ -24,13 +34,25 @@
   word-wrap: break-word;
 }
 
+.sidenav{
+  padding-top: 5%;
+  padding-left: 15%;
+position: center;
+  height: auto;
+}
+
 .sidenav a {
-  padding-right: 4%;
-  padding-top: 12%;
-  color: #818181;
+  position: center;
+  color: #131313;
   display: block;
   transition: 0.3s;
 }
 
 .sidenav a:hover {
+}
+
+.sidenav table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  align-content: center;
 }

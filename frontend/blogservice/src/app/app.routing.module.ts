@@ -4,13 +4,16 @@ import {LoginpageComponent} from "./components/loginpage/loginpage.component";
 import {UserpostpanelComponent} from "./components/userpostpanel/userpostpanel.component";
 import {ModifyPostComponent} from "./components/modify-post/modify-post.component";
 import {AuthGuardServiceService} from "./auth/auth-guard-service.service";
+import {ViewpostComponent} from "./components/viewpost/viewpost.component";
 
 
 export const routes: Routes = [
   {path: 'login', component: LoginpageComponent},
   {path: 'userPostPanel', component: UserpostpanelComponent},
   {path: 'modifyPost/:postuuid', component: ModifyPostComponent, canActivate: [AuthGuardServiceService]},
-  {path: 'modifyPost/:postuuid/:version', component: ModifyPostComponent, canActivate: [AuthGuardServiceService]}
+ // {path: 'modifyPost/:postuuid/:version', component: ModifyPostComponent, canActivate: [AuthGuardServiceService]},
+  {path: ':postuuid/public', component: ViewpostComponent}
+
 ];
 
 @NgModule({

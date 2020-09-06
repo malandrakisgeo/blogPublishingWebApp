@@ -14,12 +14,16 @@ export class PostService {
   private getVersionsUrl: string;
   private post: Post;
   private getPostsOfUser: string;
+  private getPublicPostUrl: string;
+  private delPosts: string;
 
   constructor(private http: HttpClient) {
     this.findPostUrl = 'http://localhost:3000/verify/';
     this.getPostUrl = 'http://localhost:3000/getPost/';
     this.getVersionsUrl = 'http://localhost:3000/getVersions/';
     this.getPostsOfUser = 'http://localhost:3000/getPostsOfUser/'
+    this.getPublicPostUrl = 'http://localhost:3000/getPublicPost/'
+    this.delPosts = 'http://localhost:3000/deletePosts'
   }
 
 
@@ -54,7 +58,13 @@ export class PostService {
 
   }
 
-  public fetchPostt(uuid: String, userId: String): Observable<Post> {
+  /*
+    The backend will check whether the post to be modified
+    actually belongs to the requesting user. The
+    backend checks whether the user is actually logged in.
+
+  */
+  public fetchPostForModification(uuid: String, userId: String): Observable<Post> {
     return this.http.get(this.getPostUrl + uuid + '/' + userId).pipe(
       map(data => {
         if (!data) {
@@ -64,17 +74,58 @@ export class PostService {
         }
       })
     );
+  }
+
+  public fetchPublicPost(uuid: String): Observable<Post> {
+    return this.http.get(this.getPublicPostUrl + uuid).pipe(
+      map(data => {
+        if (!data) {
+          throw new Error('Non-existent  or unpublished post');
+        } else {
+          return Post.fromJSON(data)
+        }
+      })
+    );
 
   }
 
+
   public getVersions(uuid: String): Observable<Number> {
-    return this.http.get(this.getVersionsUrl + uuid).pipe(map(data=>{
-      return Number(data.toString())}
+    return this.http.get(this.getVersionsUrl + uuid).pipe(map(data => {
+        return Number(data.toString())
+      }
     ));
   }
 
   public getPosts(uuid: String): Observable<Post[]> {
     return this.http.get<Post[]>(this.getPostsOfUser + uuid);
+  }
+
+
+  public fetchVersionOfPost(uuid: String, userId: String, version: String): Observable<Post> {
+    return this.http.get(this.getPostUrl + uuid + '/' + userId+ '/' + version).pipe(
+      map(data => {
+        if (!data) {
+          throw new Error('Non-existing post, or belonging to another user');
+        } else {
+          return Post.fromJSON(data)
+        }
+      })
+    );
+  }
+
+
+  public deletePosts(posts: Post[], userCreds: any) {
+
+    const httpReq = {
+      headers: {
+        'Content-Type': 'application/json',
+      }, 'posts': posts, 'user': userCreds
+    };
+    console.log(httpReq);
+    return this.http.put(this.delPosts, httpReq).subscribe(a=> {
+      console.log('sent')
+    });
   }
 
   fetchPostsOfUser() {

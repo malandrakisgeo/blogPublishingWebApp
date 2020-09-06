@@ -121,6 +121,12 @@ blogapp.get('/getposts',
         postController.postsOfUser(req);
     }
 );
+blogapp.get('/getPublicPost/:postuuid',
+    (req, res) => {
+        postController.getPublicPost(req, res);
+    }
+);
+
 
 blogapp.get('/getversions/:postuuid',
     (req, res) => {
@@ -152,6 +158,11 @@ always have its' own, independent security logic.
 blogapp.post('/verify', (req, res) => {
     if (userController.validRequest(req)) {
         postController.verifyAndSave(req, res);
+    }
+});
+blogapp.put('/deletePosts', (req, res) => {
+    if (userController.validRequest(req)) {
+        postController.deletePosts(req, res);
     }
 });
 

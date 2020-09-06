@@ -15,6 +15,10 @@ import {ModifyPostComponent} from './components/modify-post/modify-post.componen
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthService} from "./auth/auth.service";
 import {AuthSingletonModule} from "./auth/auth-singleton/auth-singleton.module";
+import { ViewpostComponent } from './components/viewpost/viewpost.component';
+import { SearchComponent } from './components/search/search.component';
+import {ElasticSearchService} from "./services/elastic-search.service";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,15 +26,17 @@ import {AuthSingletonModule} from "./auth/auth-singleton/auth-singleton.module";
     IndexpageComponent,
     UserpostpanelComponent,
     LoginpageComponent,
-    ModifyPostComponent
+    ModifyPostComponent,
+    ViewpostComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, AppRoutingModule, CKEditorModule,
-    AuthSingletonModule.forRoot()
+    AuthSingletonModule.forRoot(), NgbModule,
     //gia na mporeis na steileis get requests prepei to httpclientmodule na einai edw.
     //Epishs, to approutingmodule doulevei, enw to routermodule oxi
   ],
-  providers: [/*AuthService,*/ LoginserviceService, PostService],
+  providers: [/*AuthService,*/ ElasticSearchService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
